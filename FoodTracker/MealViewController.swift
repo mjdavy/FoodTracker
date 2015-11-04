@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate
 {
@@ -86,14 +87,42 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     {
         // The info dictionary contains mulitple representations of the image, and this uses the original.
         let selectedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+        let imageUrl = info[UIImagePickerControllerReferenceURL] as! NSURL
+        
         
         // Set photoImageView to display the selected image.
         photoImageView.image = selectedImage
+        
+        updateImageMetaData(imageUrl)
         
         // Dismiss the picker
         dismissViewControllerAnimated(true, completion: nil)
         
     }
+    
+    func updateImageMetaData(imageUrl: NSURL)
+    {
+      
+        
+        let results = PHAsset.fetchAssetsWithALAssetURLs([imageUrl], options: nil)
+        let count = results.count
+        
+        if count > 0
+        {
+            let asset = results[0] as! PHAsset
+            let location = asset.location
+            
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
+            let date = dateFormatter.stringFromDate(asset.creationDate!)
+        
+            //meal?.location =  location
+            meal?.date = date
+
+        }
+
+    }
+    
     
     // MARK: Navigation
     

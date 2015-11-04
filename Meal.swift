@@ -15,6 +15,8 @@ class Meal : NSObject, NSCoding
     var name: String
     var photo: UIImage?
     var rating: Int
+    var date: NSString?
+    var location : NSString?
     
     // MARK: Archiving Paths
     
@@ -29,6 +31,7 @@ class Meal : NSObject, NSCoding
         self.name = name
         self.photo = photo
         self.rating = rating
+        
         
         super.init()
         
